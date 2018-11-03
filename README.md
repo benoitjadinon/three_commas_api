@@ -1,7 +1,4 @@
-A library for Dart developers.
-
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+Async Dart api for 3commas.io.
 
 ## Usage
 
@@ -10,8 +7,9 @@ A simple usage example:
 ```dart
 import 'package:three_commas_api/three_commas_api.dart';
 
-main() {
-  var awesome = new Awesome();
+main() async {
+  var client = new ThreeCommasClient(Client(), 'APIKEY', 'SECRET');
+  var exchanges = await client.getVer1AccountsMarketList();
 }
 ```
 
@@ -19,4 +17,4 @@ main() {
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/benoitjadinon/three_commas_api/issues
