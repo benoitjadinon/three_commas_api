@@ -1,0 +1,19 @@
+name: three_commas_api
+description: A starting point for Dart libraries or applications.
+# version: 1.0.0
+# homepage: https://www.example.com
+# author: ben <email@example.com>
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  built_value: ^6.1.5
+  built_collection: ^4.0.0
+  http: ^0.12.0
+
+dev_dependencies:
+  test: ^1.0.0
+  build_runner: ^1.1.0
+  built_value_generator: ^6.1.5
+  #coverage: 0.12.1
