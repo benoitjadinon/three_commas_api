@@ -1,0 +1,3 @@
+// replace with yours to test queries but don't push them to git, exclude your changes
+String ThreeCommasApiKey = 'vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A';    // key from docs https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md
+String ThreeCommasSecretKey = 'NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j'; // key from docs https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md
