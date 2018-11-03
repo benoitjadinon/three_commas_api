@@ -276,3 +276,4 @@ cmake-build-*/
 # Sonarlint plugin
 
 # End of https://www.gitignore.io/api/dart,webstorm,intellij,androidstudio
+/test/api_keys.dart
