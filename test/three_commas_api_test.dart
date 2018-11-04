@@ -8,7 +8,7 @@ void main() {
     ThreeCommasClient client;
 
     setUp(() {
-      client = new ThreeCommasClient(Client(), ThreeCommasApiKey, ThreeCommasSecretKey);
+      client = new ThreeCommasClient(Client(), null, null);
     });
 
     test('Get Markets List (unsigned)', () async {
@@ -28,12 +28,18 @@ void main() {
   });
 
   group('api signed', () {
-    /* signed requests testing only work with real keys
+    ThreeCommasClient client;
+
+    setUp(() {
+      client = new ThreeCommasClient(Client(), ThreeCommasApiKey, ThreeCommasSecretKey);
+    });
 
     test('Get User Accounts', () async {
       var r = await client.getVer1Accounts();
       expect(r, isNotEmpty);
     });
+
+    /* signed requests testing only work with real keys
 
     test('Add User Accounts', () async {
       var r = await client.addAccount("binance", "binance_account", "XXXXXX", "YYYYYY");
@@ -46,7 +52,7 @@ void main() {
     ThreeCommasClient client;
 
     setUp(() {
-      client = new ThreeCommasClient(Client(), ThreeCommasApiKey, ThreeCommasSecretKey);
+      client = new ThreeCommasClient(Client(), 'vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A', 'NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j');
     });
 
     /// https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md

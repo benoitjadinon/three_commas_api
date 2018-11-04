@@ -5,8 +5,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
-import 'package:three_commas_api/src/Model/exchange.dart';
-import 'package:three_commas_api/src/three_commas_api_exception.dart';
+import 'package:three_commas_api/three_commas_api.dart';
 
 /// A class that provides access to the 3commas api.
 ///
@@ -51,7 +50,7 @@ class ThreeCommasClient {
   }
 
   /// Add exchange account (Permission: ACCOUNTS_WRITE, Security: SIGNED)
-  Future addAccount(String marketName, String name, String apiKey, String secret, [String customerId, String passphrase]) async
+  Future addAccount(String marketName, String name, String apiKey, String secret, [String customerId/*Bitstamp*/, String passphrase/*Coinbase Pro*/]) async
   {
     var body = {
       'type' : marketName,
@@ -70,12 +69,12 @@ class ThreeCommasClient {
   }
 
   /// User connected exchanges(and EthereumWallet) list (Permission: ACCOUNTS_READ, Security: SIGNED)
-  Future<List<Exchange>> getVer1Accounts() async
+  Future<List<Account>> getVer1Accounts() async
   {
     final response = await _get('accounts', signed: true);
     if (response.statusCode > 200)
       throw new Exception(response.statusCode.toString() + response.body);
-    return Exchange.fromJsonList(response.body);
+    return Account.fromJsonList(response.body);
   }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of exchange;
+part of 'exchange.dart';
 
 // **************************************************************************
 // BuiltValueGenerator

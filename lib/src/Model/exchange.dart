@@ -1,5 +1,3 @@
-library exchange;
-
 import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';

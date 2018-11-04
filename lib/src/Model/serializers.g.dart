@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of serializers;
+part of 'serializers.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
@@ -19,5 +19,7 @@ part of serializers;
 // ignore_for_file: unnecessary_new
 // ignore_for_file: test_types_in_equals
 
-Serializers _$serializers =
-    (new Serializers().toBuilder()..add(Exchange.serializer)).build();
+Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(Account.serializer)
+      ..add(Exchange.serializer))
+    .build();
