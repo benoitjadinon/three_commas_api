@@ -1,0 +1,3 @@
+[submodule "docs"]
+	path = docs
+	url = https://benoitjadinon@github.com/3commas-io/3commas-official-api-docs.git
