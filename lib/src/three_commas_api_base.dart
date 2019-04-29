@@ -26,7 +26,7 @@ class ThreeCommasClient {
   String _apiKey;
   String _secretKey;
 
-  ThreeCommasClient(this.httpClient, this._apiKey, this._secretKey, {this.basePath: "https://3commas.io/public/api", this.apiVersion = 'ver1'});
+  ThreeCommasClient(this.httpClient, this._apiKey, this._secretKey, {this.basePath: "https://api.3commas.io/public/api", this.apiVersion = 'ver1'});
 
   /// Supported markets list (Permission: NONE, Security: NONE)
   Future<List<Exchange>> getVer1AccountsMarketList() async {
@@ -67,7 +67,7 @@ class ThreeCommasClient {
   /// User connected exchanges(and EthereumWallet) list (Permission: ACCOUNTS_READ, Security: SIGNED)
   Future<List<Account>> getVer1Accounts() async {
     final response = await _get('accounts', signed: true);
-    if (response.statusCode > 200)
+    if (response.statusCode > 400)
       throw new Exception(response.statusCode.toString() + response.body);
     return Account.fromJsonList(json.decode(response.body));
   }
