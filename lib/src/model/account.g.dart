@@ -55,7 +55,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
         const DecimalConverter().fromJson(json['total_usd_profit'])
     ..prettyDisplayType = json['pretty_display_type'] as String
     ..address = json['address'] as String
-    ..BalanceMethod = _$enumDecodeNullable(
+    ..balanceMethod = _$enumDecodeNullable(
         _$AccountBalanceMethodEnumMap, json['auto_balance_method']);
 }
 
@@ -105,7 +105,7 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'pretty_display_type': instance.prettyDisplayType,
       'address': instance.address,
       'auto_balance_method':
-          _$AccountBalanceMethodEnumMap[instance.BalanceMethod]
+          _$AccountBalanceMethodEnumMap[instance.balanceMethod]
     };
 
 T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {

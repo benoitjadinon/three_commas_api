@@ -89,7 +89,7 @@ class Account {
   @JsonKey(name: "address")
   String address;
   @JsonKey(name: "auto_balance_method", nullable: true)
-  AccountBalanceMethod BalanceMethod;
+  AccountBalanceMethod balanceMethod;
 
   Account();
 
