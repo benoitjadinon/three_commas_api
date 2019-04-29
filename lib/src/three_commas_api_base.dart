@@ -29,29 +29,25 @@ class ThreeCommasClient {
   ThreeCommasClient(this.httpClient, this._apiKey, this._secretKey, {this.basePath: "https://3commas.io/public/api", this.apiVersion = 'ver1'});
 
   /// Supported markets list (Permission: NONE, Security: NONE)
-  Future<List<Exchange>> getVer1AccountsMarketList() async
-  {
+  Future<List<Exchange>> getVer1AccountsMarketList() async {
     final response = await _get('accounts/market_list');
-    return Exchange.fromJsonList(response.body);
+    return Exchange.fromJsonList(json.decode(response.body));
   }
 
   /// Test connectivity to the Rest API (Permission: NONE, Security: NONE)
-  Future<bool> getVer1Ping() async
-  {
+  Future<bool> getVer1Ping() async {
     final response = await _get('ping');
     return response.reasonPhrase == "OK";
   }
 
   /// Test connectivity to the Rest API and get the current server time (Permission: NONE, Security: NONE)
-  Future<DateTime> getVer1Time() async
-  {
+  Future<DateTime> getVer1Time() async {
     final response = await _get('time');
     return HttpDate.parse(response.headers['date']);
   }
 
   /// Add exchange account (Permission: ACCOUNTS_WRITE, Security: SIGNED)
-  Future addAccount(String marketName, String name, String apiKey, String secret, [String customerId/*Bitstamp*/, String passphrase/*Coinbase Pro*/]) async
-  {
+  Future addAccount(String marketName, String name, String apiKey, String secret, [String customerId/*Bitstamp*/, String passphrase/*Coinbase Pro*/]) async {
     var body = {
       'type' : marketName,
       'name' : name,
@@ -65,16 +61,15 @@ class ThreeCommasClient {
       body.addAll({'passphrase' : passphrase});
 
     final response = await _post('accounts/new', body, signed: true);
-    return Exchange.fromJsonList(response.body);
+    return response.body;
   }
 
   /// User connected exchanges(and EthereumWallet) list (Permission: ACCOUNTS_READ, Security: SIGNED)
-  Future<List<Account>> getVer1Accounts() async
-  {
+  Future<List<Account>> getVer1Accounts() async {
     final response = await _get('accounts', signed: true);
     if (response.statusCode > 200)
       throw new Exception(response.statusCode.toString() + response.body);
-    return Account.fromJsonList(response.body);
+    return Account.fromJsonList(json.decode(response.body));
   }
 
 
@@ -96,7 +91,6 @@ class ThreeCommasClient {
 
 
   @protected String sign(Uri uri, [Map<String, String> body, String secretKey]) {
-
     if (body != null && body.isNotEmpty)
       uri = new Uri(
           scheme: uri.scheme,

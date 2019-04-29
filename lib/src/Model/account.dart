@@ -1,107 +1,91 @@
 import 'dart:convert';
 
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:quiver/core.dart';
-import 'package:three_commas_api/src/Model/serializers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'account.g.dart';
 
-abstract class Account implements Built<Account, AccountBuilder> {
-  Account._();
+@JsonSerializable(nullable: false)
+class Account {
 
-  factory Account([updates(AccountBuilder b)]) = _$Account;
+  int id;
 
-  @BuiltValueField(wireName: 'id')
-  int get id;
-  @BuiltValueField(wireName: 'auto_balance_period')
-  int get autoBalancePeriod;
-  @nullable
-  @BuiltValueField(wireName: 'auto_balance_portfolio_id')
-  String get autoBalancePortfolioId;
-  @nullable
-  @BuiltValueField(wireName: 'auto_balance_currency_change_limit')
-  String get autoBalanceCurrencyChangeLimit;
-  @BuiltValueField(wireName: 'autobalance_enabled')
-  bool get autobalanceEnabled;
-  @BuiltValueField(wireName: 'is_locked')
-  bool get isLocked;
-  @BuiltValueField(wireName: 'smart_trading_supported')
-  bool get smartTradingSupported;
-  @BuiltValueField(wireName: 'smart_selling_supported')
-  bool get smartSellingSupported;
-  @BuiltValueField(wireName: 'available_for_trading')
-  BuiltMap<dynamic, dynamic> get availableForTrading;
-  @BuiltValueField(wireName: 'stats_supported')
-  bool get statsSupported;
-  @BuiltValueField(wireName: 'trading_supported')
-  bool get tradingSupported;
-  @BuiltValueField(wireName: 'market_buy_supported')
-  bool get marketBuySupported;
-  @BuiltValueField(wireName: 'conditional_buy_supported')
-  bool get conditionalBuySupported;
-  @BuiltValueField(wireName: 'bots_allowed')
-  bool get botsAllowed;
-  @BuiltValueField(wireName: 'created_at')
-  String get createdAt;
-  @BuiltValueField(wireName: 'updated_at')
-  String get updatedAt;
-  @nullable
-  @BuiltValueField(wireName: 'last_auto_balance')
-  String get lastAutoBalance;
-  @nullable
-  @BuiltValueField(wireName: 'api_key')
-  String get apiKey;
-  @BuiltValueField(wireName: 'name')
-  String get name;
-  @nullable
-  @BuiltValueField(wireName: 'auto_balance_method')
-  String get autoBalanceMethod;
-  @nullable
-  @BuiltValueField(wireName: 'auto_balance_error')
-  String get autoBalanceError;
-  @nullable
-  @BuiltValueField(wireName: 'lock_reason')
-  String get lockReason;
-  @BuiltValueField(wireName: 'btc_amount')
-  String get btcAmount;
-  @BuiltValueField(wireName: 'usd_amount')
-  String get usdAmount;
-  @BuiltValueField(wireName: 'day_profit_btc')
-  String get dayProfitBtc;
-  @BuiltValueField(wireName: 'day_profit_usd')
-  String get dayProfitUsd;
-  @BuiltValueField(wireName: 'day_profit_btc_percentage')
-  String get dayProfitBtcPercentage;
-  @BuiltValueField(wireName: 'day_profit_usd_percentage')
-  String get dayProfitUsdPercentage;
-  @BuiltValueField(wireName: 'btc_profit')
-  String get btcProfit;
-  @BuiltValueField(wireName: 'usd_profit')
-  String get usdProfit;
-  @BuiltValueField(wireName: 'usd_profit_percentage')
-  String get usdProfitPercentage;
-  @BuiltValueField(wireName: 'btc_profit_percentage')
-  String get btcProfitPercentage;
-  @BuiltValueField(wireName: 'total_btc_profit')
-  String get totalBtcProfit;
-  @BuiltValueField(wireName: 'total_usd_profit')
-  String get totalUsdProfit;
-  @BuiltValueField(wireName: 'pretty_display_type')
-  String get prettyDisplayType;
-  String toJson() {
-    return json.encode(serializers.serializeWith(Account.serializer, this));
-  }
+  @JsonKey(name:'auto_balance_period')
+  int autoBalancePeriod;
+  
+  @JsonKey(name:'auto_balance_portfolio_id', nullable: true)
+  String autoBalancePortfolioId;
+  
+  @JsonKey(name:'auto_balance_currency_change_limit', nullable: true)
+  String autoBalanceCurrencyChangeLimit;
+  
+  @JsonKey(name: 'autobalance_enabled')
+  bool autobalanceEnabled;
+  @JsonKey(name: 'is_locked')
+  bool isLocked;
+  @JsonKey(name: 'smart_trading_supported')
+  bool smartTradingSupported;
+  @JsonKey(name: 'smart_selling_supported')
+  bool smartSellingSupported;
 
-  static Account fromJson(String jsonString) {
-    return serializers.deserializeWith(Account.serializer, json.decode(jsonString));
-  }
+  //TODO
+  //@JsonKey(name: 'alable_for_trading')
+  //BuiltMap<dynamic, dynamic> availableForTrading;
 
-  static List<Account> fromJsonList(String jsonString) {
-    return json.decode(jsonString).map<Account>((map) =>
-        serializers.deserializeWith<Account>(Account.serializer, map)).toList();
-  }
+  @JsonKey(name: 'stats_supported')
+  bool statsSupported;
+  @JsonKey(name: 'trading_supported')
+  bool tradingSupported;
+  @JsonKey(name: 'market_buy_supported')
+  bool marketBuySupported;
+  @JsonKey(name: 'conditional_buy_supported')
+  bool conditionalBuySupported;
+  @JsonKey(name: 'bots_allowed')
+  bool botsAllowed;
+  @JsonKey(name: 'created_at')
+  String createdAt;
+  @JsonKey(name: 'updated_at')
+  String updatedAt;
+  @JsonKey(name: 'last_auto_balance', nullable: true)
+  String lastAutoBalance;
+  @JsonKey(name: 'api_key', nullable: true)
+  String apiKey;
+  String name;
+  @JsonKey(name: 'auto_balance_method', nullable: true)
+  String autoBalanceMethod;
+  @JsonKey(name: 'auto_balance_error', nullable: true)
+  String autoBalanceError;
+  @JsonKey(name: 'lock_reason', nullable: true)
+  String lockReason;
+  @JsonKey(name: 'btc_amount')
+  String btcAmount;
+  @JsonKey(name: 'usd_amount')
+  String usdAmount;
+  @JsonKey(name: 'day_profit_btc')
+  String dayProfitBtc;
+  @JsonKey(name: 'day_profit_usd')
+  String dayProfitUsd;
+  @JsonKey(name: 'day_profit_btc_percentage')
+  String dayProfitBtcPercentage;
+  @JsonKey(name: 'day_profit_usd_percentage')
+  String dayProfitUsdPercentage;
+  @JsonKey(name: 'btc_profit')
+  String btcProfit;
+  @JsonKey(name: 'usd_profit')
+  String usdProfit;
+  @JsonKey(name: 'usd_profit_percentage')
+  String usdProfitPercentage;
+  @JsonKey(name: 'btc_profit_percentage')
+  String btcProfitPercentage;
+  @JsonKey(name: 'total_btc_profit')
+  String totalBtcProfit;
+  @JsonKey(name: 'total_usd_profit')
+  String totalUsdProfit;
+  @JsonKey(name: 'pretty_display_type')
+  String prettyDisplayType;
 
-  static Serializer<Account> get serializer => _$accountSerializer;
+  Account();
+
+  factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
+  static List<Account> fromJsonList(List<dynamic> json) => json.map((i) => Account.fromJson(i)).toList(growable: false);
+  Map<String, dynamic> toJson() => _$AccountToJson(this);
 }
