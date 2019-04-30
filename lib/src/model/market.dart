@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'exchange.g.dart';
+part 'market.g.dart';
 
 @JsonSerializable(nullable: false)
-class Exchange
+class Market
 {
   @JsonKey(name: 'market_name')
   String marketName;
@@ -16,9 +16,9 @@ class Exchange
   @JsonKey(name: 'help_link')
   String helpLink;
 
-  Exchange();
+  Market();
 
-  factory Exchange.fromJson(Map<String, dynamic> json) => _$ExchangeFromJson(json);
-  static List<Exchange> fromJsonList(List<dynamic> json) => json.map((i) => Exchange.fromJson(i)).toList(growable: false);
-  Map<String, dynamic> toJson() => _$ExchangeToJson(this);
+  factory Market.fromJson(Map<String, dynamic> json) => _$MarketFromJson(json);
+  static List<Market> fromJsonList(List<dynamic> json) => json.map((i) => Market.fromJson(i)).toList(growable: false);
+  Map<String, dynamic> toJson() => _$MarketToJson(this);
 }

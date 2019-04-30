@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:three_commas_api/three_commas_api.dart';
 
+
 /// A class that provides access to the 3commas api.
 ///
 /// ### Example
@@ -26,23 +27,25 @@ class ThreeCommasClient {
   String _apiKey;
   String _secretKey;
 
+
   ThreeCommasClient(this.httpClient, this._apiKey, this._secretKey, {this.basePath: "https://api.3commas.io/public/api", this.apiVersion = 'ver1'});
 
+
   /// Supported markets list (Permission: NONE, Security: NONE)
-  Future<List<Exchange>> getVer1AccountsMarketList() async {
-    final response = await _get('accounts/market_list');
-    return Exchange.fromJsonList(json.decode(response.body));
+  Future<List<Market>> getAccountsMarketList() async {
+    final response = await _get('accounts/market_list', signed: false);
+    return Market.fromJsonList(json.decode(response.body));
   }
 
   /// Test connectivity to the Rest API (Permission: NONE, Security: NONE)
-  Future<bool> getVer1Ping() async {
-    final response = await _get('ping');
+  Future<bool> getPing() async {
+    final response = await _get('ping', signed: false);
     return response.reasonPhrase == "OK";
   }
 
   /// Test connectivity to the Rest API and get the current server time (Permission: NONE, Security: NONE)
-  Future<DateTime> getVer1Time() async {
-    final response = await _get('time');
+  Future<DateTime> getTime() async {
+    final response = await _get('time', signed: false);
     return HttpDate.parse(response.headers['date']);
   }
 
@@ -60,20 +63,29 @@ class ThreeCommasClient {
     if (passphrase != null)
       body.addAll({'passphrase' : passphrase});
 
-    final response = await _post('accounts/new', body, signed: true);
+    final response = await _post('accounts/new', body);
     return response.body;
   }
 
   /// User connected exchanges(and EthereumWallet) list (Permission: ACCOUNTS_READ, Security: SIGNED)
-  Future<List<Account>> getVer1Accounts() async {
-    final response = await _get('accounts', signed: true);
+  Future<List<Account>> getAccounts() async {
+    final response = await _get('accounts');
     if (response.statusCode > 400)
       throw new Exception(response.statusCode.toString() + response.body);
     return Account.fromJsonList(json.decode(response.body));
   }
 
+  ///
+  Future<CurrencyRate> getCurrencyRateAsync(String pair, [String prettyDisplayType = "Binance"]) async {
+    final response = await _get('accounts/currency_rates?pretty_display_type=$prettyDisplayType&pair=$pair');
+    if (response.statusCode > 400)
+      throw new Exception(response.statusCode.toString() + response.body);
+    return CurrencyRate.fromJson(json.decode(response.body));
+  }
 
-  Future<Response> _get(String path, {bool signed = false, Map<String, String> headers}) async {
+//region private
+
+  Future<Response> _get(String path, {bool signed = true, Map<String, String> headers}) async {
     var uri = _getFullPath(path);
     var res = await httpClient.get(uri, headers: _getSignedHeaders(headers, uri, signed));
     if (res.statusCode > 400)
@@ -81,14 +93,13 @@ class ThreeCommasClient {
     return res;
   }
 
-  Future<Response> _post(String path, Map<String, String> body, {bool signed = false, Map<String, String> headers}) async {
+  Future<Response> _post(String path, Map<String, String> body, {bool signed = true, Map<String, String> headers}) async {
     var uri = _getFullPath(path);
     var res = await httpClient.post(uri, body: body, headers: _getSignedHeaders(headers, uri, signed, body));
     if (res.statusCode > 400)
       throw new ApiException(res.statusCode, res.body);
     return res;
   }
-
 
   @protected String sign(Uri uri, [Map<String, String> body, String secretKey]) {
     if (body != null && body.isNotEmpty)
@@ -125,4 +136,6 @@ class ThreeCommasClient {
   }
 
   Uri _getFullPath(String path) => Uri.parse('$basePath/$apiVersion/$path');
+
+//endregion
 }

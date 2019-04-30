@@ -12,17 +12,17 @@ void main() {
     });
 
     test('Get Markets List (unsigned)', () async {
-      var r = await client.getVer1AccountsMarketList();
+      var r = await client.getAccountsMarketList();
       expect(r, isNotEmpty);
     });
 
     test('Ping (unsigned)', () async {
-      var r = await client.getVer1Ping();
+      var r = await client.getPing();
       expect(r, true);
     });
 
     test('Time (unsigned)', () async {
-      var r = await client.getVer1Time();
+      var r = await client.getTime();
       expect(r, isNotNull);
     });
   });
@@ -35,7 +35,7 @@ void main() {
     });
 
     test('Get User Accounts', () async {
-      var r = await client.getVer1Accounts();
+      var r = await client.getAccounts();
       expect(r, isNotEmpty);
     });
 
