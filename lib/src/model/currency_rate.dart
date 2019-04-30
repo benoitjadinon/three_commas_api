@@ -5,8 +5,7 @@ import 'package:three_commas_api/src/converters/decimal.dart';
 part 'currency_rate.g.dart';
 
 @JsonSerializable(nullable: false)
-class CurrencyRate
-{
+class CurrencyRate {
   @JsonKey(name: "last")
   @DecimalConverter()
   Decimal last;

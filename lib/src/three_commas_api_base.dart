@@ -70,16 +70,12 @@ class ThreeCommasClient {
   /// User connected exchanges(and EthereumWallet) list (Permission: ACCOUNTS_READ, Security: SIGNED)
   Future<List<Account>> getAccounts() async {
     final response = await _get('accounts');
-    if (response.statusCode > 400)
-      throw new Exception(response.statusCode.toString() + response.body);
     return Account.fromJsonList(json.decode(response.body));
   }
 
   ///
   Future<CurrencyRate> getCurrencyRateAsync(String pair, [String prettyDisplayType = "Binance"]) async {
     final response = await _get('accounts/currency_rates?pretty_display_type=$prettyDisplayType&pair=$pair');
-    if (response.statusCode > 400)
-      throw new Exception(response.statusCode.toString() + response.body);
     return CurrencyRate.fromJson(json.decode(response.body));
   }
 
