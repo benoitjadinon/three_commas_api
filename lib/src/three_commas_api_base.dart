@@ -31,11 +31,7 @@ class ThreeCommasClient {
   ThreeCommasClient(this.httpClient, this._apiKey, this._secretKey, {this.basePath: "https://api.3commas.io/public/api", this.apiVersion = 'ver1'});
 
 
-  /// Supported markets list (Permission: NONE, Security: NONE)
-  Future<List<Market>> getAccountsMarketList() async {
-    final response = await _get('accounts/market_list', signed: false);
-    return Market.fromJsonList(json.decode(response.body));
-  }
+//region https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md
 
   /// Test connectivity to the Rest API (Permission: NONE, Security: NONE)
   Future<bool> getPing() async {
@@ -49,6 +45,10 @@ class ThreeCommasClient {
     return HttpDate.parse(response.headers['date']);
   }
 
+//endregion https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md
+
+//region https://github.com/3commas-io/3commas-official-api-docs/blob/master/accounts_api.md
+
   /// Add exchange account (Permission: ACCOUNTS_WRITE, Security: SIGNED)
   Future addAccount(String marketName, String name, String apiKey, String secret, [String customerId/*Bitstamp*/, String passphrase/*Coinbase Pro*/]) async {
     var body = {
@@ -58,12 +58,13 @@ class ThreeCommasClient {
       'secret' : secret,
     };
 
+    // TODO : dart 2.3 `...`
     if (customerId != null)
       body.addAll({'customer_id' : customerId});
     if (passphrase != null)
       body.addAll({'passphrase' : passphrase});
 
-    final response = await _post('accounts/new', body);
+    final response = await _post('accounts/new', body:body);
     return response.body;
   }
 
@@ -73,18 +74,59 @@ class ThreeCommasClient {
     return Account.fromJsonList(json.decode(response.body));
   }
 
-  ///
+  /// Supported markets list (Permission: NONE, Security: NONE)
+  Future<List<Market>> getAccountsMarketList() async {
+    final response = await _get('accounts/market_list', signed: false);
+    return Market.fromJsonList(json.decode(response.body));
+  }
+
+  /// Currency rates and limits (Permission: NONE, Security: NONE)
   Future<CurrencyRate> getCurrencyRateAsync(String pair, [String prettyDisplayType = "Binance"]) async {
-    final response = await _get('accounts/currency_rates?pretty_display_type=$prettyDisplayType&pair=$pair');
+    final response = await _get('accounts/currency_rates?pretty_display_type=$prettyDisplayType&pair=$pair', signed: false);
     return CurrencyRate.fromJson(json.decode(response.body));
   }
 
-  ///
-  Future<Account> loadBalances(int accountId) async
-  {
+  /// Sell all to USD (Permission: ACCOUNTS_WRITE, Security: SIGNED)
+  Future sellAllToUSD(int accountId) async {
+    final response = await _post('accounts/$accountId/sell_all_to_usd');
+    return response.body;
+  }
+
+  /// Sell all to BTC (Permission: ACCOUNTS_WRITE, Security: SIGNED)
+  Future sellAllToBTC(int accountId) async {
+    final response = await _post('accounts/$accountId/sell_all_to_btc');
+    return response.body;
+  }
+
+  /// Load balances for specified exchange (Permission: ACCOUNTS_READ, Security: SIGNED)
+  Future<Account> loadBalances(int accountId) async {
     final response = await _get('accounts/$accountId/load_balances');
     return Account.fromJson(json.decode(response.body));
   }
+
+  /// Rename exchange connection (Permission: ACCOUNTS_WRITE, Security: SIGNED)
+  Future renameAccount(int accountId, String name) async {
+    var body = { 'name' : name, };
+    final response = await _post('accounts/$accountId/rename', body:body);
+    return response.body;
+  }
+
+  /// Information aboutl all user balances on specified exchange in pretty for pie chart format (Permission: ACCOUNTS_READ, Security: SIGNED)
+  //TODO POST /ver1/accounts/{account_id}/pie_chart_data
+
+  /// Information about all user balances on specified exchange (Permission: ACCOUNTS_READ, Security: SIGNED)
+  //TODO POST /ver1/accounts/{account_id}/account_table_data
+
+  /// Remove exchange connection (Permission: ACCOUNTS_WRITE, Security: SIGNED)
+  Future removeAccount(int accountId) async {
+    final response = await _post('accounts/$accountId/remove');
+    return response.body;
+  }
+
+//endregion https://github.com/3commas-io/3commas-official-api-docs/blob/master/accounts_api.md
+
+//region https://github.com/3commas-io/3commas-official-api-docs/blob/master/smart_trades_api.md
+//endregion https://github.com/3commas-io/3commas-official-api-docs/blob/master/smart_trades_api.md
 
 //region private
 
@@ -96,7 +138,7 @@ class ThreeCommasClient {
     return res;
   }
 
-  Future<Response> _post(String path, Map<String, String> body, {bool signed = true, Map<String, String> headers}) async {
+  Future<Response> _post(String path, {Map<String, String> body = null, bool signed = true, Map<String, String> headers}) async {
     var uri = _getFullPath(path);
     var res = await httpClient.post(uri, body: body, headers: _getSignedHeaders(headers, uri, signed, body));
     if (res.statusCode > 400)
