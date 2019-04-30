@@ -1,6 +1,6 @@
 import 'package:three_commas_api/three_commas_api.dart';
 import 'package:test/test.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'api_keys.dart';
 
 void main() {
@@ -8,7 +8,7 @@ void main() {
     ThreeCommasClient client;
 
     setUp(() {
-      client = new ThreeCommasClient(Client(), null, null);
+      client = new ThreeCommasClient(http.Client(), null, null);
     });
 
     test('Get Markets List (unsigned)', () async {
@@ -31,7 +31,7 @@ void main() {
     ThreeCommasClient client;
 
     setUp(() {
-      client = new ThreeCommasClient(Client(), ThreeCommasApiKey, ThreeCommasSecretKey);
+      client = new ThreeCommasClient(http.Client(), ThreeCommasApiKey, ThreeCommasSecretKey);
     });
 
     test('Get User Accounts', () async {
@@ -52,7 +52,7 @@ void main() {
     ThreeCommasClient client;
 
     setUp(() {
-      client = new ThreeCommasClient(Client(), 'vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A', 'NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j');
+      client = new ThreeCommasClient(http.Client(), 'vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A', 'NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j');
     });
 
     /// https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md

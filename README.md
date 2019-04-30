@@ -6,16 +6,17 @@ A simple usage example:
 
 ```dart
 import 'package:three_commas_api/three_commas_api.dart';
+import 'package:http/http.dart' as http;
 
 main() async {
-  var client = new ThreeCommasClient(Client(), 'APIKEY', 'SECRET');
+  var client = new ThreeCommasClient(http.Client(), 'APIKEY', 'SECRET');
   var exchanges = await client.getVer1AccountsMarketList();
 }
 ```
 
 ## Version
 
-matching the 2019-03-14 release
+work in progress, 20% or so, matching the 2019-03-14 release
 
 ## Contribute
 
