@@ -79,6 +79,13 @@ class ThreeCommasClient {
     return CurrencyRate.fromJson(json.decode(response.body));
   }
 
+  ///
+  Future<Account> loadBalances(int accountId) async
+  {
+    final response = await _get('accounts/$accountId/load_balances');
+    return Account.fromJson(json.decode(response.body));
+  }
+
 //region private
 
   Future<Response> _get(String path, {bool signed = true, Map<String, String> headers}) async {
