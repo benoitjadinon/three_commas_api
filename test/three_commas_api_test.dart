@@ -39,6 +39,11 @@ void main() {
       expect(r, isNotEmpty);
     });
 
+    test('Get User Accounts Markets', () async {
+      var r = await client.getAccountsMarketList();
+      expect(r, isNotEmpty);
+    });
+
     /* signed requests testing only work with real keys
 
     test('Add User Accounts', () async {
@@ -57,7 +62,7 @@ void main() {
 
     /// https://github.com/3commas-io/3commas-official-api-docs/blob/master/rest-api.md
     test('signing', () async {
-      var r = await client.sign(Uri.parse('https://3commas.io/public/api/ver1/accounts/new?type=binance&name=binance_account&api_key=XXXXXX&secret=YYYYYY'));
+      var r = await client.sign(Uri.parse('https://api.3commas.io/public/api/ver1/accounts/new?type=binance&name=binance_account&api_key=XXXXXX&secret=YYYYYY'));
       expect(r, equals('30f678a157230290e00475cfffccbc92ae3659d94c145a2c0e9d0fa28f41c11a'));
     });
   });

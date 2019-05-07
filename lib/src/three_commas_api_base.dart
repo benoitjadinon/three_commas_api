@@ -58,7 +58,6 @@ class ThreeCommasClient {
       'secret' : secret,
     };
 
-    // TODO : dart 2.3 `...`
     if (customerId != null)
       body.addAll({'customer_id' : customerId});
     if (passphrase != null)
